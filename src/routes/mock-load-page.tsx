@@ -26,6 +26,7 @@ export const MockLoadPage = () => {
   useEffect(() => {
     const fetchInterview = async () => {
       if (interviewId) {
+        setIsLoading(true);
         try {
           const interviewDoc = await getDoc(doc(db, "interviews", interviewId));
           if (interviewDoc.exists()) {
@@ -36,6 +37,8 @@ export const MockLoadPage = () => {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsLoading(false);
         }
       }
     };
@@ -49,6 +52,7 @@ export const MockLoadPage = () => {
 
   if (!interview) {
     navigate("/generate", { replace: true });
+    return null;
   }
 
   return (
@@ -76,7 +80,7 @@ export const MockLoadPage = () => {
           <AlertDescription className="text-sm text-yellow-700 mt-1">
             Please enable your webcam and microphone to start the AI-generated
             mock interview. The interview consists of five questions. You’ll
-            receive a personalized report based on your responses at the end.{" "}
+            receive a personalized report based on your responses at the end.
             <br />
             <br />
             <span className="font-medium">Note:</span> Your video is{" "}
@@ -88,7 +92,7 @@ export const MockLoadPage = () => {
 
       <div className="flex items-center justify-center w-full h-full">
         <div className="w-full h-[400px] md:w-96 flex flex-col items-center justify-center border p-4 bg-gray-50 rounded-md">
-        {isWebCamEnabled ? (
+          {isWebCamEnabled ? (
             <WebCam
               onUserMedia={() => setIsWebCamEnabled(true)}
               onUserMediaError={() => setIsWebCamEnabled(false)}
@@ -108,3 +112,4 @@ export const MockLoadPage = () => {
     </div>
   );
 };
+
