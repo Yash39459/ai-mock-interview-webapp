@@ -13,6 +13,7 @@ export default defineConfig({
   preview: {
     host: true,
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 4173,
+    allowedHosts: ["ai-mock-interview-webapp-3.onrender.com"],
   },
 });
 
